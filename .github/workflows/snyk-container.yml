@@ -54,10 +54,10 @@ jobs:
     - name: Run custom CodeQL query to map severities
       uses: github/codeql-action/analyze@v4
       with:
-      queries: ./severity_mapping.ql  
-      sarif_output: snyk-modified.sarif
+        queries: ./severity_mapping.ql  
+        sarif_output: snyk-modified.sarif
 
     - name: Upload modified results to Code Scanning
       uses: github/codeql-action/upload-sarif@v2
       with:
-      sarif_file: snyk-modified.sarif  
+        sarif_file: snyk-modified.sarif  
