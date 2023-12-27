@@ -1,23 +1,20 @@
-# Use a secure base image with recent updates
-FROM ubuntu:22.04  # Or another suitable base image
+# Use an official Node.js runtime as a parent image
+FROM node:14
 
-# Install essential dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    python3 \
-    ...  # Other required dependencies
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-# Copy application code to the container
-COPY . /app
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-# Set the working directory
-WORKDIR /app
+# Install app dependencies
+RUN npm install
 
-# Install application-specific dependencies
-RUN pip3 install -r requirements.txt
+# Copy the rest of the application code to the working directory
+COPY . .
 
-# Expose necessary ports for the application
-EXPOSE 8080
+# Expose the port the app runs on
+EXPOSE 3000
 
-# Start the application
-CMD ["python3", "app.py"]
+# Define the command to run the application
+CMD ["npm", "start"]
