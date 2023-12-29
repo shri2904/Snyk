@@ -48,11 +48,32 @@ jobs:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         image: your/image-to-test
-        args: --file=Dockerfile
-        json: true
-        
-      
+        args: --file=Dockerfile --json > snyk-results.json
+
+    - name: Install jq (if not already present)
+      run: sudo apt-get install jq -y
+
+    - name: Convert JSON to SARIF (example using jq)
+      run: |
+        jq '.vulnerabilities[] | {
+          "ruleId": .id,
+          "ruleIndex": .index,
+          "level": (if .severity == "high" then "error" else "warning" end),
+          "message": .title,
+          "locations": [
+            {
+              "physicalLocation": .from,
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": .package,
+                  "kind": "package"
+                }
+            ]
+          }
+        ]
+        }' snyk-results.json > snyk-converted.sarif
+
     - name: Upload result to GitHub Code Scanning
       uses: github/codeql-action/upload-sarif@v2
       with:
-        sarif_file: snyk.sarif
+        sarif_file: snyk-converted.sarif
