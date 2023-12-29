@@ -37,7 +37,7 @@ jobs:
           jq '.vulnerabilities[] | {
             "ruleId": .id,
             "ruleIndex": .index,
-            "level": (.severity == "high" | "error" : (.severity == "medium" | "warning" : "note")),
+            "level": (.severity == "high" // "error" : (.severity == "medium" // "warning" : "note")),
             "message": .title,
             "locations": [
               {
