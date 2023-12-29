@@ -37,7 +37,7 @@ jobs:
           jq '.vulnerabilities[] | {
             ruleId: .id,
             ruleIndex: .index,
-            level: (if .severity == "high" then "error" else if .severity == "medium" then "warning" else "note" end),
+            level: (.severity == "high" ? "error" : (.severity == "medium" ? "warning" : "note")),
             message: .title,
             locations: [
               {
