@@ -50,10 +50,8 @@ jobs:
         image: your/image-to-test
         args: --file=Dockerfile
         json: true
-        severityThreshold: high,medium,low
+        
       
     - name: Upload result to GitHub Code Scanning
       uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: snyk.sarif
-        query: Snyk/.github/workflows/map-severities.ql
+     
