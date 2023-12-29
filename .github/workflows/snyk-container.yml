@@ -35,17 +35,17 @@ jobs:
       - name: Convert JSON to SARIF (with severity mapping)
         run: |
           jq '.vulnerabilities[] | {
-            ruleId: .id,
-            ruleIndex: .index,
-            level: (.severity == "high" ? "error" : (.severity == "medium" ? "warning" : "note")),
-            message: .title,
-            locations: [
+            "ruleId": .id,
+            "ruleIndex": .index,
+            "level": (.severity == "high" | "error" : (.severity == "medium" | "warning" : "note")),
+            "message": .title,
+            "locations": [
               {
-                physicalLocation: .from,
-                logicalLocations: [
+                "physicalLocation": .from,
+                "logicalLocations": [
                   {
-                    fullyQualifiedName: .package,
-                    kind: "package"
+                    "fullyQualifiedName": .package,
+                    "kind": "package"
                   }
                 ]
               }
