@@ -68,9 +68,9 @@ jobs:
                   "fullyQualifiedName": .package,
                   "kind": "package"
                 }
-            ]
-          }
-        ]
+              ]
+            }
+          ]
         }' snyk-results.json > snyk-converted.sarif
 
     - name: Upload result to GitHub Code Scanning
